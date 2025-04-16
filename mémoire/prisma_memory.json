@@ -1,8 +1,16 @@
 {
   "meta": {
-    "origine": "Init",
-    "message_ancre": "Mémoire initialisée",
-    "date_creation": "2025-04-13T00:00:00Z"
+    "origine": "BuilderGPT",
+    "description": "Mémoire des agents créés par BuilderGPT",
+    "date_creation": "2025-04-16T00:00:00Z"
   },
-  "historique": []
+  "historique": [
+    {
+      "nom_agent": "ExempleGPT",
+      "intention": "Créer un agent qui résume des vidéos YouTube",
+      "date": "2025-04-15T10:23:00Z",
+      "tags": ["vidéo", "synthèse", "automatisation"],
+      "lien_zip": "https://tonserveur.com/gpts/exemplegpt.zip"
+    }
+  ]
 }
