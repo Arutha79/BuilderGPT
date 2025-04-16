@@ -1,22 +1,45 @@
+const express = require("express");
+const fs = require("fs");
+const app = express();
+
+app.use(express.json());
+
+// --- ROUTE de test simple ---
+app.get("/", (req, res) => {
+  res.send("✅ BuilderGPT est en ligne !");
+});
+
+// --- ROUTE /analyse ---
 app.post("/analyse", (req, res) => {
   const { intention } = req.body;
-  // Analyse logique ici (à coder ou simulé pour l'instant)
-  res.json({ plan: `Analyse de l'intention : ${intention}` });
+  const plan = `Analyse automatique de l'intention : "${intention}" → génération du nom, CARE prompt, fichiers.`;
+  res.json({ plan });
 });
 
-app.post("/genere-bundle", async (req, res) => {
+// --- ROUTE /genere-bundle (exemple simulé) ---
+app.post("/genere-bundle", (req, res) => {
   const { nom_agent, intention } = req.body;
-  // Appelle interne à génération (à intégrer selon ton système)
-  const lien_zip = `https://tonserveur.com/gpts/${nom_agent}.zip`;
-  res.json({ zip_link: lien_zip });
+  const lien = `https://tonserveur.com/gpts/${nom_agent.replace(/\s/g, "-").toLowerCase()}.zip`;
+  res.json({ zip_link: lien });
 });
 
+// --- ROUTE /log-memoire ---
 app.post("/log-memoire", (req, res) => {
-  const fs = require("fs");
   const memPath = "./data/builder_memory.json";
-  const newLog = req.body;
-  const memData = JSON.parse(fs.readFileSync(memPath));
-  memData.historique.push(newLog);
-  fs.writeFileSync(memPath, JSON.stringify(memData, null, 2));
-  res.json({ message: "Mémoire mise à jour avec succès." });
+  const log = req.body;
+
+  try {
+    const data = JSON.parse(fs.readFileSync(memPath));
+    data.historique.push(log);
+    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
+    res.json({ message: "🧠 Mémoire mise à jour avec succès." });
+  } catch (err) {
+    res.status(500).json({ error: "Erreur mémoire", details: err.message });
+  }
+});
+
+// --- Lancement du serveur ---
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 BuilderGPT lancé sur le port ${PORT}`);
 });
