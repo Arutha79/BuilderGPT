@@ -1,14 +1,12 @@
 openapi: 3.0.0
 info:
-  title: API BuilderGPT
-  version: 1.0.0
-servers:
-  - url: https://buildergpt-production.up.railway.app
+  title: BuilderGPT – Actions internes
+  version: 1.1.0
 paths:
-  /action:
+  /analyse:
     post:
-      summary: Action principale de BuilderGPT
-      operationId: actionBuilderGPT
+      summary: Analyse l’intention utilisateur
+      operationId: analyseIntention
       requestBody:
         required: true
         content:
@@ -18,18 +16,66 @@ paths:
               properties:
                 intention:
                   type: string
-                contenu:
-                  type: string
-              required:
-                - intention
-                - contenu
       responses:
         '200':
-          description: Succès
+          description: Analyse complète
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  message:
+                  plan:
                     type: string
+
+  /genere-bundle:
+    post:
+      summary: Génère tous les fichiers d’un GPT métier
+      operationId: genereBundle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom_agent:
+                  type: string
+                intention:
+                  type: string
+      responses:
+        '200':
+          description: Pack généré
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zip_link:
+                    type: string
+
+  /log-memoire:
+    post:
+      summary: Enregistre la génération dans la mémoire JSON
+      operationId: logMemoire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                nom_agent:
+                  type: string
+                intention:
+                  type: string
+                date:
+                  type: string
+                tags:
+                  type: array
+                  items:
+                    type: string
+                lien_zip:
+                  type: string
+      responses:
+        '200':
+          description: Mémoire mise à jour
