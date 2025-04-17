@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-// --- ROUTE de test simple ---
+// --- ROUTE de test ---
 app.get("/", (req, res) => {
   res.send("✅ BuilderGPT est en ligne !");
 });
@@ -17,7 +17,7 @@ app.post("/analyse", (req, res) => {
   res.json({ plan });
 });
 
-// --- ROUTE /genere-bundle (exemple simulé) ---
+// --- ROUTE /genere-bundle ---
 app.post("/genere-bundle", (req, res) => {
   const { nom_agent, intention } = req.body;
   const lien = `https://tonserveur.com/gpts/${nom_agent.replace(/\s/g, "-").toLowerCase()}.zip`;
@@ -27,20 +27,12 @@ app.post("/genere-bundle", (req, res) => {
 // --- ROUTE /log-memoire ---
 app.post("/log-memoire", (req, res) => {
   const memPath = path.join(__dirname, "data", "builder_memory.json");
-  const log = req.body;
+  const log = {
+    ...req.body,
+    type: "log",
+    date: new Date().toISOString()
+  };
 
   try {
     const data = JSON.parse(fs.readFileSync(memPath));
-    data.historique.push(log);
-    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
-    res.json({ message: "🧠 Mémoire mise à jour avec succès." });
-  } catch (err) {
-    res.status(500).json({ error: "Erreur mémoire", details: err.message });
-  }
-});
-
-// --- ROUTE /memoire-chat (archive une session entière) ---
-app.post("/memoire-chat", (req, res) => {
-  const memPath = path.join(__dirname, "data", "builder_memory.json");
-  const
-
+    data.historique.push
