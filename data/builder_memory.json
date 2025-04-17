@@ -1,8 +1,9 @@
 {
   "meta": {
     "origine": "BuilderGPT",
-    "description": "Mémoire des agents créés par BuilderGPT",
-    "date_creation": "2025-04-16T00:00:00Z"
+    "description": "Mémoire persistante structurée de BuilderGPT",
+    "date_creation": "2025-04-16T00:00:00Z",
+    "structure": "typée"
   },
   "historique": [
     {
@@ -12,6 +13,11 @@
       "date": "2025-04-15T10:23:00Z",
       "tags": ["vidéo", "synthèse", "automatisation"],
       "lien_zip": "https://tonserveur.com/gpts/exemplegpt.zip"
-    }
-  ]
-}
+    },
+    {
+      "type": "chat",
+      "contenu": "Le 17 avril 2025, Guillaume et BuilderGPT ont finalisé l’intégration complète de la mémoire persistante connectée à Railway avec des actions OpenAI. Toutes les routes sont opérationnelles.",
+      "date": "2025-04-17T21:00:00Z"
+    },
+    {
+      "type":
