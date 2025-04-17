@@ -36,6 +36,7 @@ app.post("/log-memoire", (req, res) => {
 
   try {
     const data = JSON.parse(fs.readFileSync(memPath));
+    data.historique = data.historique || [];
     data.historique.push(log);
     fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
     res.json({ status: "log enregistré" });
@@ -45,56 +46,5 @@ app.post("/log-memoire", (req, res) => {
   }
 });
 
-// --- ROUTE /memoire-chat ---
-app.post("/memoire-chat", (req, res) => {
-  const chat = {
-    ...req.body,
-    type: "chat",
-    date: new Date().toISOString()
-  };
-
-  try {
-    const data = JSON.parse(fs.readFileSync(memPath));
-    data.historique.push(chat);
-    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
-    res.json({ status: "chat enregistré" });
-  } catch (err) {
-    console.error("Erreur mémoire :", err);
-    res.status(500).json({ error: "Erreur écriture mémoire" });
-  }
-});
-
-// --- ROUTE /consulte-memoire ---
-app.get("/consulte-memoire", (req, res) => {
-  try {
-    const data = JSON.parse(fs.readFileSync(memPath));
-    const max = parseInt(req.query.limit) || 10;
-    const extrait = data.historique.slice(-max).reverse();
-    res.json({ extrait });
-  } catch (err) {
-    console.error("Erreur lecture mémoire :", err);
-    res.status(500).json({ error: "Impossible de lire la mémoire" });
-  }
-});
-
-// --- ROUTE /reset-memoire ---
-app.delete("/reset-memoire", (req, res) => {
-  try {
-    const current = JSON.parse(fs.readFileSync(memPath));
-    const reset = {
-      ...current,
-      historique: []
-    };
-    fs.writeFileSync(memPath, JSON.stringify(reset, null, 2));
-    res.json({ status: "mémoire effacée" });
-  } catch (err) {
-    console.error("Erreur reset mémoire :", err);
-    res.status(500).json({ error: "Impossible de réinitialiser la mémoire" });
-  }
-});
-
-// --- Lancement du serveur ---
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 BuilderGPT écoute sur le port ${PORT}`);
-});
+// --- ROUTE /memoire-chat (fiabilisée) ---
+app.post("/memoire-chat", (
