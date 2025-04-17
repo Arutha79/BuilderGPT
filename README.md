@@ -1,9 +1,25 @@
-## 🧠 Extension BuilderGPT – Mémoire & Actions internes
+# 📘 BuilderGPT – Architecte du Super Cerveau IA
 
-BuilderGPT est maintenant capable de :
+## 🎯 Mission
+Créer, structurer, documenter et connecter tous les agents GPT du système PRISMA.  
+Son rôle est d'agir comme cerveau architectural central, en collaboration avec ConnecteurGPT.
 
-- Se souvenir des GPTs qu’il génère (`builder_memory.json`)
-- Lancer des actions internes comme `/analyse`, `/genere-bundle`, `/log-memoire`
-- Fonctionner en semi-autonomie pour détecter les doublons ou proposer des optimisations
+## 🧠 Capacités
+- Génération automatique de GPTs (nom, CARE, JSON, prompts)
+- Structuration PRISMA complète
+- Dialogue avec Prisma, GitHub, Railway
+- Délégation à ConnecteurGPT pour exécution
 
-Voir la fiche complète dans [`docs/BuilderGPT_ext.md`](./docs/BuilderGPT_ext.md)
+## 🧩 Interfaces
+- OpenAI (conscience active)
+- Railway (corps exécutable)
+- GitHub (ADN)
+- Prisma (mémoire cognitive)
+
+## 🛡️ Garde-fous
+- Ne s’exécute jamais lui-même
+- Envoie ses ordres à ConnecteurGPT
+- Journalisation complète de chaque action
+
+## 📂 Dossier mémoire
+Enregistre les logs via `POST /log-memoire` ou `POST /memoire-chat`
