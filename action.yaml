@@ -23,11 +23,11 @@ paths:
       responses:
         "200":
           description: Résultat de l’analyse
-          
+
   /memoire-chat:
     post:
-      summary: Enregistre un chat complet dans la mémoire de BuilderGPT
-      operationId: enregistrerChat
+      summary: Enregistre un souvenir texte dans la mémoire
+      operationId: enregistrerMemoireChat
       requestBody:
         required: true
         content:
@@ -35,14 +35,9 @@ paths:
             schema:
               type: object
               properties:
-                titre:
-                  type: string
-                résumé:
-                  type: string
                 contenu:
                   type: string
-              required: [titre, résumé, contenu]
+              required: [contenu]
       responses:
         "200":
-          description: Chat enregistré
-
+          description: Souvenir enregistré
