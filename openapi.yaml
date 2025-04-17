@@ -1,0 +1,56 @@
+openapi: 3.1.0
+info:
+  title: Mémoire de BuilderGPT
+  version: 1.0.1
+servers:
+  - url: https://buildergpt-production-f952.up.railway.app
+paths:
+  /memoire-chat:
+    post:
+      operationId: enregistrerMemoireChat
+      summary: Enregistrer un message en mémoire
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                contenu:
+                  type: string
+              required:
+                - contenu
+      responses:
+        '200':
+          description: Succès
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /consulte-memoire:
+    get:
+      operationId: consulterMemoire
+      summary: Obtenir les derniers souvenirs de BuilderGPT
+      parameters:
+        - name: limit
+          in: query
+          description: Nombre d’éléments mémoire à retourner
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Extrait de mémoire
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  extrait:
+                    type: array
+                    items:
+                      type: object
