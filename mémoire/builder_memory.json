@@ -6,6 +6,7 @@
   },
   "historique": [
     {
+      "type": "agent",
       "nom_agent": "ExempleGPT",
       "intention": "Créer un agent qui résume des vidéos YouTube",
       "date": "2025-04-15T10:23:00Z",
