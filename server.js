@@ -7,7 +7,7 @@ app.use(express.json());
 
 const memPath = path.join(__dirname, "data", "builder_memory.json");
 
-// --- Initialisation mémoire : création si manquante ou cassée ---
+// 🔒 Initialisation mémoire : création si manquante ou corrompue
 if (!fs.existsSync(memPath)) {
   fs.writeFileSync(memPath, JSON.stringify({
     meta: {
@@ -52,5 +52,16 @@ app.post("/genere-bundle", (req, res) => {
   res.json({ zip_link: lien });
 });
 
-// --- ROUTE /log-memoire ---
-app.post("/log-memoire
+// ✅ --- ROUTE /log-memoire ---
+app.post("/log-memoire", (req, res) => {
+  const log = {
+    ...req.body,
+    type: "log",
+    date: new Date().toISOString()
+  };
+
+  try {
+    const data = JSON.parse(fs.readFileSync(memPath));
+    data.historique = data.historique || [];
+    data.historique.push(log);
+    fs.writeFileSync(memPath
