@@ -52,7 +52,7 @@ app.post("/genere-bundle", (req, res) => {
   res.json({ zip_link: lien });
 });
 
-// ✅ --- ROUTE /log-memoire ---
+// --- ROUTE /log-memoire ---
 app.post("/log-memoire", (req, res) => {
   const log = {
     ...req.body,
@@ -64,4 +64,7 @@ app.post("/log-memoire", (req, res) => {
     const data = JSON.parse(fs.readFileSync(memPath));
     data.historique = data.historique || [];
     data.historique.push(log);
-    fs.writeFileSync(memPath
+    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
+    res.json({ status: "log enregistré" });
+  } catch (err) {
+    console.error("Erreur
