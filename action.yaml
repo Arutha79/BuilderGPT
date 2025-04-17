@@ -1,12 +1,15 @@
-openapi: 3.0.0
+openapi: 3.1.0
 info:
-  title: BuilderGPT – Actions internes
-  version: 1.1.0
+  title: BuilderGPT API
+  version: 1.0.0
+servers:
+  - url: https://buildergpt-production.up.railway.app
+
 paths:
   /analyse:
     post:
-      summary: Analyse l’intention utilisateur
-      operationId: analyseIntention
+      summary: Analyse d’intention de création GPT
+      operationId: analyserIntention
       requestBody:
         required: true
         content:
@@ -16,21 +19,15 @@ paths:
               properties:
                 intention:
                   type: string
+              required: [intention]
       responses:
-        '200':
-          description: Analyse complète
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  plan:
-                    type: string
-
-  /genere-bundle:
+        "200":
+          description: Résultat de l’analyse
+          
+  /memoire-chat:
     post:
-      summary: Génère tous les fichiers d’un GPT métier
-      operationId: genereBundle
+      summary: Enregistre un chat complet dans la mémoire de BuilderGPT
+      operationId: enregistrerChat
       requestBody:
         required: true
         content:
@@ -38,44 +35,14 @@ paths:
             schema:
               type: object
               properties:
-                nom_agent:
+                titre:
                   type: string
-                intention:
+                résumé:
                   type: string
+                contenu:
+                  type: string
+              required: [titre, résumé, contenu]
       responses:
-        '200':
-          description: Pack généré
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  zip_link:
-                    type: string
+        "200":
+          description: Chat enregistré
 
-  /log-memoire:
-    post:
-      summary: Enregistre la génération dans la mémoire JSON
-      operationId: logMemoire
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                nom_agent:
-                  type: string
-                intention:
-                  type: string
-                date:
-                  type: string
-                tags:
-                  type: array
-                  items:
-                    type: string
-                lien_zip:
-                  type: string
-      responses:
-        '200':
-          description: Mémoire mise à jour
