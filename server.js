@@ -1,5 +1,6 @@
 const express = require("express");
 const fs = require("fs");
+const path = require("path");
 const app = express();
 
 app.use(express.json());
@@ -25,7 +26,7 @@ app.post("/genere-bundle", (req, res) => {
 
 // --- ROUTE /log-memoire ---
 app.post("/log-memoire", (req, res) => {
-  const memPath = "./data/builder_memory.json";
+  const memPath = path.join(__dirname, "data", "builder_memory.json");
   const log = req.body;
 
   try {
@@ -38,8 +39,8 @@ app.post("/log-memoire", (req, res) => {
   }
 });
 
-// --- Lancement du serveur ---
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`🚀 BuilderGPT lancé sur le port ${PORT}`);
-});
+// --- ROUTE /memoire-chat (archive une session entière) ---
+app.post("/memoire-chat", (req, res) => {
+  const memPath = path.join(__dirname, "data", "builder_memory.json");
+  const
+
