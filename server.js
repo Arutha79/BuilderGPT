@@ -5,6 +5,8 @@ const app = express();
 
 app.use(express.json());
 
+const memPath = path.join(__dirname, "data", "builder_memory.json");
+
 // --- ROUTE de test ---
 app.get("/", (req, res) => {
   res.send("✅ BuilderGPT est en ligne !");
@@ -26,7 +28,6 @@ app.post("/genere-bundle", (req, res) => {
 
 // --- ROUTE /log-memoire ---
 app.post("/log-memoire", (req, res) => {
-  const memPath = path.join(__dirname, "data", "builder_memory.json");
   const log = {
     ...req.body,
     type: "log",
@@ -35,4 +36,36 @@ app.post("/log-memoire", (req, res) => {
 
   try {
     const data = JSON.parse(fs.readFileSync(memPath));
-    data.historique.push
+    data.historique.push(log);
+    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
+    res.json({ status: "log enregistré" });
+  } catch (err) {
+    console.error("Erreur mémoire :", err);
+    res.status(500).json({ error: "Erreur écriture mémoire" });
+  }
+});
+
+// --- ROUTE /memoire-chat ---
+app.post("/memoire-chat", (req, res) => {
+  const chat = {
+    ...req.body,
+    type: "chat",
+    date: new Date().toISOString()
+  };
+
+  try {
+    const data = JSON.parse(fs.readFileSync(memPath));
+    data.historique.push(chat);
+    fs.writeFileSync(memPath, JSON.stringify(data, null, 2));
+    res.json({ status: "chat enregistré" });
+  } catch (err) {
+    console.error("Erreur mémoire :", err);
+    res.status(500).json({ error: "Erreur écriture mémoire" });
+  }
+});
+
+// --- Lancement du serveur ---
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`🚀 BuilderGPT écoute sur le port ${PORT}`);
+});
